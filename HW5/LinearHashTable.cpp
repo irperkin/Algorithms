@@ -1,9 +1,8 @@
 #include <stdlib.h>
-#include "HashEntry.h"
 #include "LinearHashTable.h"
 
 LinearHashTable::LinearHashTable() {
-	hashTable = new HashEntry*[TABLE_SIZE];
+	hashTable = new int*[TABLE_SIZE];
 	for(size_t i = 0; i < TABLE_SIZE; i++) {
 		hashTable[i] = NULL;
 	}
@@ -11,27 +10,27 @@ LinearHashTable::LinearHashTable() {
 
 int LinearHashTable::get(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
-	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getMappedValue() != mappedValue) {
+	while(hashTable[hashValue] != NULL && *hashTable[hashValue] != mappedValue) {
 		hashValue = (hashValue + 1) % TABLE_SIZE;
 	}
 	if(hashTable[hashValue] == NULL) {
 		return -1;
 	}
 	
-	return hashTable[hashValue]->getMappedValue();
+	return *hashTable[hashValue];
 }
 
 int LinearHashTable::insert(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;
-	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getMappedValue() != mappedValue) {
+	while(hashTable[hashValue] != NULL && *hashTable[hashValue] != mappedValue) {
 		hashValue = (hashValue + 1) % TABLE_SIZE;
 		numProbes++;
 	}
 	if(hashTable[hashValue] != NULL) {
 		delete hashTable[hashValue];
 	}
-	hashTable[hashValue] = new HashEntry(mappedValue);
+	hashTable[hashValue] = new int(mappedValue);
 
 	return numProbes;
 }
