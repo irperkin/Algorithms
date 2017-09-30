@@ -15,6 +15,7 @@ void printProbes(numList probes) {
 	for(numList::iterator iter = probes.begin(); iter != probes.end(); iter++) {
 		totalProbes += *iter;
 	}
+	std::cout << "Total number of probes for the last 50 insertions = " << totalProbes << std::endl;
 	std::cout << "Average number of probes for the last 50 insertions = " << 1.0*(totalProbes / probes.size()) << std::endl << std::endl;
 }
 
