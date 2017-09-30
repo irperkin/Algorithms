@@ -12,18 +12,6 @@ QuadHashTable::QuadHashTable() {
 	}
 }
 
-int QuadHashTable::get(int mappedValue) {
-	int hashValue = mappedValue % TABLE_SIZE;
-	for(int i = 1; hashTable[hashValue] != NULL && *hashTable[hashValue] != mappedValue; i++) {
-		hashValue = (mappedValue + c1*1 + c2*i*i) % TABLE_SIZE;
-	}
-	if(hashTable[hashValue] == NULL) {
-		return -1;
-	}
-
-	return *hashTable[hashValue];
-}
-
 int QuadHashTable::insert(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;

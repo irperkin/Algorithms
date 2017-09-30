@@ -8,7 +8,6 @@ private:
 	int **hashTable;
 public:
 	DoubleHashTable();
-	int get(int mappedValue);
 	int insert(int mappedValue);
 	~DoubleHashTable();
 };

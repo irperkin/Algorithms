@@ -8,7 +8,6 @@ private:
 	int **hashTable;
 public:
 	QuadHashTable();
-	int get(int mappedValue);
 	int insert(int mappedValue);
 	~QuadHashTable();
 };

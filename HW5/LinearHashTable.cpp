@@ -11,18 +11,6 @@ LinearHashTable::LinearHashTable() {
 	}
 }
 
-int LinearHashTable::get(int mappedValue) {
-	int hashValue = mappedValue % TABLE_SIZE;
-	while(hashTable[hashValue] != NULL && *hashTable[hashValue] != mappedValue) {
-		hashValue = (hashValue + 1) % TABLE_SIZE;
-	}
-	if(hashTable[hashValue] == NULL) {
-		return -1;
-	}
-	
-	return *hashTable[hashValue];
-}
-
 int LinearHashTable::insert(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;

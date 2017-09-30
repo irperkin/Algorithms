@@ -8,7 +8,6 @@ private:
 	int **hashTable;
 public:
 	LinearHashTable();
-	int get(int mappedValue);
 	int insert(int mappedValue);
 	~LinearHashTable();
 };

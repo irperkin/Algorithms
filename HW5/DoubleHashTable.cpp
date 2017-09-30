@@ -10,17 +10,16 @@ DoubleHashTable::DoubleHashTable() {
 	}
 }
 
-DoubleHashTable::get(int mappedValue) {
-
-}
-
-DoubleHashTable::insert(int mappedValue) {
+int DoubleHashTable::insert(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;
 	for(int i = 0; hashTable[hashValue] != NULL; i++) {
-		hashValue = (mappedValue % TABLE_SIZE) + i*(mappedValue % (TABLE_SIZE - 1) + 1);
+		hashValue = ((mappedValue % TABLE_SIZE) + i*((mappedValue % (TABLE_SIZE - 1)) + 1)) % TABLE_SIZE;
 		numProbes++;
 	}
+	hashTable[hashValue] = new int(mappedValue);
+
+	return numProbes;
 }
 
 DoubleHashTable::~DoubleHashTable() {
