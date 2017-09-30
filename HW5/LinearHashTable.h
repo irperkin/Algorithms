@@ -3,8 +3,6 @@
 
 #include <stdlib.h>
 
-const int TABLE_SIZE = 1009;
-
 class LinearHashTable {
 private:
 	int **hashTable;

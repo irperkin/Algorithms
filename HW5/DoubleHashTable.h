@@ -1,16 +1,16 @@
-#ifndef QUAD_HASH_TABLE_H
-#define QUAD_HASH_TABLE_H
+#ifndef DOUBLE_HASH_TABLE_H
+#define DOUBLE_HASH_TABLE_H
 
 #include <stdlib.h>
 
-class QuadHashTable {
+class DoubleHashTable {
 private:
 	int **hashTable;
 public:
-	QuadHashTable();
+	DoubleHashTable();
 	int get(int mappedValue);
 	int insert(int mappedValue);
-	~QuadHashTable();
+	~DoubleHashTable();
 };
 
 #endif

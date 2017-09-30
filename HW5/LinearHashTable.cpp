@@ -1,5 +1,8 @@
 #include <stdlib.h>
+#include <iostream>
 #include "LinearHashTable.h"
+
+const int TABLE_SIZE = 1009;
 
 LinearHashTable::LinearHashTable() {
 	hashTable = new int*[TABLE_SIZE];
@@ -23,7 +26,7 @@ int LinearHashTable::get(int mappedValue) {
 int LinearHashTable::insert(int mappedValue) {
 	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;
-	while(hashTable[hashValue] != NULL && *hashTable[hashValue] != mappedValue) {
+	while(hashTable[hashValue] != NULL) {
 		hashValue = (hashValue + 1) % TABLE_SIZE;
 		numProbes++;
 	}
@@ -42,5 +45,3 @@ LinearHashTable::~LinearHashTable() {
 		}
 	}
 }
-
-// last test
