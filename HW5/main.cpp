@@ -10,15 +10,15 @@ int main (int argc, char* argv[]) {
 	srand((unsigned)time(0)); // changing random number seed
 
 	for(int i = 0; i < 900; i++) {
-		linearTable.insert(rand(), rand()); // inserting first 900 random numbers
-		// quadTable.insert(rand(), rand());
-		// doubHashTable(rand(), rand());
+		linearTable.insert(rand()); // inserting first 900 random numbers
+		// quadTable.insert(rand());
+		// doubHashTable(rand());
 	}
 
 	for(int i = 0; i < 50; i++) {
-		linearProbes.push_back(linearTable.insert(rand(), rand())); // inserting last 50 numbers
-		// quadProbes.push_back(quadTable.insert(rand(), rand()));
-		// doubHashProbes.push_back(doubHashTable(rand(), rand()));
+		linearProbes.push_back(linearTable.insert(rand())); // inserting last 50 numbers
+		// quadProbes.push_back(quadTable.insert(rand()));
+		// doubHashProbes.push_back(doubHashTable(rand()));
 	}
 
 	std::cout << "Ayy, it's working." << std::endl;

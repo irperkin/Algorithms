@@ -11,8 +11,8 @@ private:
 	HashEntry **hashTable;
 public:
 	LinearHashTable();
-	int get(int key);
-	int insert(int key, int mappedValue);
+	int get(int mappedValue);
+	int insert(int mappedValue);
 	~LinearHashTable();
 };
 

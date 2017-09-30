@@ -9,9 +9,9 @@ LinearHashTable::LinearHashTable() {
 	}
 }
 
-int LinearHashTable::get(int key) {
-	int hashValue = key % TABLE_SIZE;
-	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getKey() != key) {
+int LinearHashTable::get(int mappedValue) {
+	int hashValue = mappedValue % TABLE_SIZE;
+	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getMappedValue() != mappedValue) {
 		hashValue = (hashValue + 1) % TABLE_SIZE;
 	}
 	if(hashTable[hashValue] == NULL) {
@@ -21,17 +21,17 @@ int LinearHashTable::get(int key) {
 	return hashTable[hashValue]->getMappedValue();
 }
 
-int LinearHashTable::insert(int key, int mappedValue) {
-	int hashValue = key % TABLE_SIZE;
+int LinearHashTable::insert(int mappedValue) {
+	int hashValue = mappedValue % TABLE_SIZE;
 	int numProbes = 0;
-	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getKey() != key) {
+	while(hashTable[hashValue] != NULL && hashTable[hashValue]->getMappedValue() != mappedValue) {
 		hashValue = (hashValue + 1) % TABLE_SIZE;
 		numProbes++;
 	}
 	if(hashTable[hashValue] != NULL) {
-		delete hashTable[hashValue]; // overwriting mapped value that matches key given
+		delete hashTable[hashValue];
 	}
-	hashTable[hashValue] = new HashEntry(key, mappedValue);
+	hashTable[hashValue] = new HashEntry(mappedValue);
 
 	return numProbes;
 }
@@ -41,6 +41,5 @@ LinearHashTable::~LinearHashTable() {
 		if(hashTable[i] != NULL) {
 			delete hashTable[i];
 		}
-		// delete[] hashTable;
 	}
 }

@@ -3,11 +3,9 @@
 
 class HashEntry {
 private:
-	int key;
 	int mappedValue;
 public:
-	HashEntry(int key, int mappedValue);
-	int getKey();
+	HashEntry(int mappedValue);
 	int getMappedValue();
 };
 

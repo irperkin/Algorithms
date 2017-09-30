@@ -1,12 +1,7 @@
 #include "HashEntry.h"
 
-HashEntry::HashEntry(int key, int mappedValue) {
-	this->key = key;
+HashEntry::HashEntry(int mappedValue) {
 	this->mappedValue = mappedValue;
-}
-
-int HashEntry::getKey() {
-	return key;
 }
 
 int HashEntry::getMappedValue() {
