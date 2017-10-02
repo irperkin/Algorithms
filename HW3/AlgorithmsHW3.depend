@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1505705325 source:c:\users\ian\desktop\algorithmshw3\main.cpp
+	<fstream>
+	<vector>
+	<queue>
+	<climits>
+	<iostream>
+	<list>
+	<stdlib.h>
+	<sstream>
+	<algorithm>
+	<cstring>
+
