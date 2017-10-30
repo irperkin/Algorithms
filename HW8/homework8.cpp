@@ -68,6 +68,7 @@ void readInputFile(char * inputFile, vector<Activity> &activities) {
 
 bool finishTimeSort(const Activity i, const Activity j) { return (i.endTime < j.endTime); }
 
+// this could be improved with binary search i think
 int activitySearch(vector<Activity> activities, int i) {
     for(int j = i - 1; j >= 0; j--) {
         if(activities[j].endTime <= activities[i].startTime) {
@@ -77,45 +78,52 @@ int activitySearch(vector<Activity> activities, int i) {
     return -1;
 }
 
-int weightedActivitySelector(vector<Activity> &activities) {
+pair<vector<int>, int> weightedActivitySelector(vector<Activity> &activities) {
     int numActivities = activities.size();
+    vector<int> temp;
 	sort(activities.begin(), activities.end(), finishTimeSort);
 
-	int * table = new int[numActivities];
-	table[0] = activities[0].value;
+	pair<vector<int>, int> * table = new pair<vector<int>, int>[numActivities];
+	temp.push_back(activities[0].id);
+	table[0] = make_pair(temp, activities[0].value);
+	temp.clear();
+
+	cout << "activities[0].id = " << activities[0].id << endl;
+	cout << "table[0].first[0] = " << table[0].first[0] << endl;
 
 	for(int i = 1; i < numActivities; i++) {
-        int vals = activities[i].value;
+		temp.push_back(activities[i].id);
+        pair<vector<int>, int> vals = make_pair(temp, activities[i].value);
+        temp.clear();
         int activity = activitySearch(activities, i);
-        if(activity != -1) { vals += table[activity]; }
-        table[i] = max(vals, table[i - 1]);
+        if(activity != -1) {
+			temp.reserve(vals.first.size() + table[activity].first.size()); // preallocate memory
+			temp.insert(temp.end(), vals.first.begin(), vals.first.end());
+			temp.insert(temp.end(), table[activity].first.begin(), table[activity].first.end());
+        	vals.first = temp;
+        	vals.second += table[activity].second;
+        	temp.clear();
+        }
+       	table[i] = (vals.second >= table[i - 1].second ? vals : table[i - 1]);
 	}
-    int result = table[numActivities - 1];
+ 	pair<vector<int>, int> result = table[numActivities - 1];
 	delete[] table;
+	sort(result.first.begin(), result.first.end(), less<int>());
 	return result;
 }
 
-//int weightedActivity(int n, vector<Activity> &a) {
-//    if(n == 1) {
-//        return a[0].v;
-//    }
-//    vector<int> dp(n);
-//    dp[0] = a[0].v;
-//    int x, y, i, j;
-//    for(i=1; i<n; i++) {
-//        x = a[i].v;
-//        j = i - 1;
-//        while(j>=0 && a[i].s<=a[j].e) {
-//            j--;
-//        }
-//        y = 0;
-//        if(j != -1) {
-//            y = a[j].v;
-//        }
-//        dp[i] = max(x + y, dp[i-1]);
-//    }
-//    return dp[n-1];
-//}
+void writeOutputFile(char * outputFile, pair<vector<int>, int> result) {
+	ofstream outStream(outputFile);	
+
+	outStream << "biggest value = " << result.second << endl << "activity id's: ";
+ 	for(int i = 0; i < result.first.size(); i++) {
+ 		if(i != result.first.size() - 1) {
+ 			outStream << result.first[i] << ", ";
+ 		} else {
+ 			outStream << result.first[i] << endl;
+ 		}
+ 	}
+}
 
 int main(int argc, char * argv[]) {
 
@@ -124,13 +132,13 @@ int main(int argc, char * argv[]) {
 		return -1;
  	}
 
-// 	char * inputFile = argv[1];
-// 	char * outputFile = argv[2];
-    char * inputFile = "input1.txt";
+	char * inputFile = argv[1];
+	char * outputFile = argv[2];
  	vector<Activity> activities;
 
  	readInputFile(inputFile, activities);
- 	weightedActivitySelector(activities);
+ 	pair<vector<int>, int> result = weightedActivitySelector(activities);
+ 	writeOutputFile(outputFile, result);
 
 	return 0;
 }
