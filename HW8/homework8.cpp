@@ -68,54 +68,54 @@ void readInputFile(char * inputFile, vector<Activity> &activities) {
 
 bool finishTimeSort(const Activity i, const Activity j) { return (i.endTime < j.endTime); }
 
-vector<pair<int, int> > weightedActivitySelector(vector<Activity> &activities) {
-	int numActivities = activities.size();
-	vector<pair<int, int> > weightedActivities(numActivities);
+int activitySearch(vector<Activity> activities, int i) {
+    for(int j = i - 1; j >= 0; j--) {
+        if(activities[j].endTime <= activities[i].startTime) {
+            return j;
+        }
+    }
+    return -1;
+}
 
-	if(numActivities == 1) {
-		weightedActivities.push_back(make_pair(activities[0].id, activities[0].value));
-		return weightedActivities;
-	}
-
+int weightedActivitySelector(vector<Activity> &activities) {
+    int numActivities = activities.size();
 	sort(activities.begin(), activities.end(), finishTimeSort);
 
-	weightedActivities[0] = make_pair(activities[0].id, activities[0].value);
-	int j;
-	pair<int, int> x, y;
+	int * table = new int[numActivities];
+	table[0] = activities[0].value;
+
 	for(int i = 1; i < numActivities; i++) {
-		x = make_pair(activities[i].id, activities[i].value);
-		for(j = i - 1; j >= 0 && activities[i].startTime <= activities[j].endTime; j--) { }
-		y = make_pair(0, 0);
-		if(j != -1) {
-			y = make_pair(activities[j].id, activities[j].value);
-		}
-		weightedActivities[i] = make_pair( ,max(x.second + y.second, weightedActivities[i - 1].second));
+        int vals = activities[i].value;
+        int activity = activitySearch(activities, i);
+        if(activity != -1) { vals += table[activity]; }
+        table[i] = max(vals, table[i - 1]);
 	}
-
-	return weightedActivities;
+    int result = table[numActivities - 1];
+	delete[] table;
+	return result;
 }
 
-int weightedActivity(int n, vector<activity> &a) {
-    if(n == 1) {
-        return a[0].v;
-    }
-    vector<int> dp(n);
-    dp[0] = a[0].v;
-    int x, y, i, j;
-    for(i=1; i<n; i++) {
-        x = a[i].v;
-        j = i - 1;
-        while(j>=0 && a[i].s<=a[j].e) {
-            j--;
-        }
-        y = 0;
-        if(j != -1) {
-            y = a[j].v;
-        }
-        dp[i] = max(x + y, dp[i-1]);
-    }
-    return dp[n-1];
-}
+//int weightedActivity(int n, vector<Activity> &a) {
+//    if(n == 1) {
+//        return a[0].v;
+//    }
+//    vector<int> dp(n);
+//    dp[0] = a[0].v;
+//    int x, y, i, j;
+//    for(i=1; i<n; i++) {
+//        x = a[i].v;
+//        j = i - 1;
+//        while(j>=0 && a[i].s<=a[j].e) {
+//            j--;
+//        }
+//        y = 0;
+//        if(j != -1) {
+//            y = a[j].v;
+//        }
+//        dp[i] = max(x + y, dp[i-1]);
+//    }
+//    return dp[n-1];
+//}
 
 int main(int argc, char * argv[]) {
 
@@ -124,8 +124,9 @@ int main(int argc, char * argv[]) {
 		return -1;
  	}
 
- 	char * inputFile = argv[1];
- 	char * outputFile = argv[2];
+// 	char * inputFile = argv[1];
+// 	char * outputFile = argv[2];
+    char * inputFile = "input1.txt";
  	vector<Activity> activities;
 
  	readInputFile(inputFile, activities);
