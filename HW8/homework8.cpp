@@ -88,9 +88,6 @@ pair<vector<int>, int> weightedActivitySelector(vector<Activity> &activities) {
 	table[0] = make_pair(temp, activities[0].value);
 	temp.clear();
 
-	cout << "activities[0].id = " << activities[0].id << endl;
-	cout << "table[0].first[0] = " << table[0].first[0] << endl;
-
 	for(int i = 1; i < numActivities; i++) {
 		temp.push_back(activities[i].id);
         pair<vector<int>, int> vals = make_pair(temp, activities[i].value);
